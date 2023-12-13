@@ -111,6 +111,9 @@ def correlations(df, country_list, indicator_list, index, cmapstyle):
     # Generate heatmap with annotations
     sns.heatmap(corr_matrix, annot=True, cmap=cmapstyle,
                 fmt=".2f", linewidths=.5)
+    # Adjust the font size on heatmap
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
     # Set the title of the heatmap
     plt.title(f"{country_list[index]}", fontsize=25)
     # Show the plot
