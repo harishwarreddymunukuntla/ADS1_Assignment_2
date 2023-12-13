@@ -57,7 +57,10 @@ def Statistics(df, country_list, indicator_list, index):
     df_pop1 = df_pop.dropna(axis=1)
 
     # Create a new DataFrame for plotting
-    df_new = pd.concat([df_pop1.iloc[:, 0], df_pop1.iloc[:, -6:]], axis=1)
+    if(index==1):
+        df_new = pd.concat([df_pop1.iloc[:, 0], df_pop1.iloc[:, -6:]], axis=1)
+    else:
+        df_new = pd.concat([df_pop1.iloc[:, 0], df_pop1.iloc[:, -8:-2]], axis=1)
     df_new.set_index(["Country Name"], inplace=True)
     # Generate bar plot
     ax = df_new.plot(kind="bar", edgecolor='black')
@@ -134,7 +137,7 @@ def Statistics_line(df, country_list, indicator_list, index):
     df_pop = df_sub[df_sub["Indicator Name"] == indicator_list[index]]
     # Drop columns with NaN values
     df_pop1 = df_pop.dropna(axis=1)
-    df_new = pd.concat([df_pop1.iloc[:, 0], df_pop1.iloc[:, -6:]], axis=1)
+    df_new = pd.concat([df_pop1.iloc[:, 0], df_pop1.iloc[:, -8:-2]], axis=1)
     # Create a new DataFrame for plotting
     df_new.set_index(["Country Name"], inplace=True)
     # Create a new figure with specified size
@@ -146,7 +149,7 @@ def Statistics_line(df, country_list, indicator_list, index):
     # Set labels and legend
     plt.xlabel('Year')
     plt.ylabel('Value')
-    plt.legend()
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
     # Add grid to the plot
     plt.grid(True)
     # Add the title to plot
@@ -172,16 +175,17 @@ def main():
                     "United Kingdom", "Nigeria"]
     indicator_list = [
         "Population growth (annual %)",
-        "Urban population growth (annual %)",
+        "CO2 emissions (kt)",
         "Renewable electricity output (% of total electricity output)",
         "Agricultural land (sq. km)",
-        "CO2 emissions (metric tons per capita)",
-        "Agriculture, forestry, and fishing, value added (% of GDP)"]
+        "Urban population growth (annual %)",
+        "Foreign direct investment, net inflows (% of GDP)"]
 
     # Call functions to generate plots and visualizations
     Statistics(df, country_list, indicator_list, 0)
     Statistics(df, country_list, indicator_list, 1)
     Statistics_line(df, country_list, indicator_list, 5)
+    Statistics_line(df, country_list, indicator_list, 4)
     correlations(df, country_list, indicator_list, 0, "coolwarm")
     correlations(df, country_list, indicator_list, 3, "viridis")
 
